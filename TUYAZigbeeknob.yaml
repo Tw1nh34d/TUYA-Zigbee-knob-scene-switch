@@ -1,5 +1,5 @@
 blueprint:
-  name: ZHA - Tuya Smart Knob for lights - v1.2
+  name: Tuya ZG-101Z/D ZHA Events
   description: 'Control lights with a Tuya Smart Knob from "_TZ3000_402vrq2i".
     Tapping activates toggle event and will toggle the selected light.
     Rotating left/right will change the brightness smoothly of the selected light.
@@ -22,14 +22,15 @@ blueprint:
     2026-02-04 - Changed Mode from Restart to Parallel to address issue with using sequences using delays'
   domain: automation
   input:
-    remote:
-      name: Remote
-      description: Tuya Knob to use
+    smart_knob:
+      name: Smart Knob Device
+      description: Select your Tuya Smart Knob
       selector:
         device:
-          integration: zigbee2mqtt
+          integration: zha
+          manufacturer: _TZ3000_gwkzibhs
           model: TS004F
-          multiple: false
+          multiple: false 
 
     light:
       name: Light(s)
