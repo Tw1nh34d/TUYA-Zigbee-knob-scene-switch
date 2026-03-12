@@ -27,9 +27,9 @@ blueprint:
       description: Tuya Knob to use
       selector:
         device:
-          integration: Zigbee2MQTT
+          integration: MQTT
           manufacturer: Moes
-          model: Smart knob
+          model: ZG-101ZD
           multiple: false
 
     light:
