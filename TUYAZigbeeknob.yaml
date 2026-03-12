@@ -29,7 +29,6 @@ blueprint:
         target:
           entity:
             domain: light
-            multiple: false
 
     light:
       name: Light(s)
