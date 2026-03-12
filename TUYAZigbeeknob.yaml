@@ -20,8 +20,8 @@ blueprint:
       description: Tuya Knob to use
       selector:
         device:
-          integration: Z2M
-          model: TS004F
+          filter:
+            integration: mqtt
 
     light:
       name: Light(s)
