@@ -29,7 +29,6 @@ blueprint:
         device:
           integration: mqtt
           model: TS004F
-          multiple: false
 
     light:
       name: Light(s)
