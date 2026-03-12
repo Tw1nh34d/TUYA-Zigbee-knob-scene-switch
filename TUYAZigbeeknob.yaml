@@ -11,7 +11,7 @@ blueprint:
     - Double Press
     - Long Press
     - Rotate Right
-    - Rotate Left
+    - Rotate Left'
 
   domain: automation
   input:
