@@ -26,11 +26,10 @@ blueprint:
       name: Remote
       description: Tuya Knob to use
       selector:
-        device:
-          integration: MQTT
-          manufacturer: Moes
-          model: ZG-101ZD
-          multiple: false
+        target:
+          entity:
+            domain: light
+            multiple: false
 
     light:
       name: Light(s)
