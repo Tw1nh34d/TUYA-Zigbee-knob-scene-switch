@@ -27,7 +27,7 @@ blueprint:
       description: Tuya Knob to use
       selector:
         device:
-          integration: zigbee2mqt
+          integration: mqtt
           manufacturer: _TZ3000_gwkzibhs
           model: TS004F
           multiple: false
