@@ -13,13 +13,6 @@ blueprint:
     - Rotate Right
     - Rotate Left
 
-    Based on
-    - Original blueprint by seamus65 (https://gist.github.com/seamus65/939a147634942dd885c8704334627f93).
-
-    - Improved by GonzaloAlbito (https://gist.github.com/gonzaloalbito/3dc06702e941e08298ea9bfade731731).
-
-    2026-01-30 - Initial Version 
-    2026-02-04 - Changed Mode from Restart to Parallel to address issue with using sequences using delays'
   domain: automation
   input:
     remote:
