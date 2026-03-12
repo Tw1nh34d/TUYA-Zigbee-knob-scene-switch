@@ -1,5 +1,5 @@
 blueprint:
-  name: ZHA - Tuya Smart Knob for lights - v1.2
+  name: Tuya Smart Knob for lights
   description: 'Control lights with a Tuya Smart Knob from "_TZ3000_402vrq2i".
     Tapping activates toggle event and will toggle the selected light.
     Rotating left/right will change the brightness smoothly of the selected light.
@@ -29,7 +29,7 @@ blueprint:
         device:
           integration: mqtt
           manufacturer: _TZ3000_gwkzibhs
-          model: Smart knob (Moes)
+          model: TS004F
           multiple: false
 
     light:
