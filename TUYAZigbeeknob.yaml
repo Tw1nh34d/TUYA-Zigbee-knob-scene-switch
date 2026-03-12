@@ -1,6 +1,6 @@
 blueprint:
   name: Tuya Smart Knob for lights
-  description: 'Control lights with a Tuya Smart Knob from "_TZ3000_402vrq2i".
+  description: 'Control lights with a Tuya Smart Knob.
     Tapping activates toggle event and will toggle the selected light.
     Rotating left/right will change the brightness smoothly of the selected light.
     Adjusted for generic Tuya Smart Knob, with functionality added for remote mode.
