@@ -26,9 +26,11 @@ blueprint:
       name: Remote
       description: Tuya Knob to use
       selector:
-        target:
-          entity:
-            domain: light
+	device:
+          integration: mqtt
+          manufacturer: _TZ3000_gwkzibhs
+          model: TS004F
+          multiple: false
 
     light:
       name: Light(s)
