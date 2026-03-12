@@ -1,0 +1,149 @@
+blueprint:
+  name: ZHA - Tuya Smart Knob for lights - v1.2
+  description: 'Control lights with a Tuya Smart Knob from "_TZ3000_402vrq2i".
+    Tapping activates toggle event and will toggle the selected light.
+    Rotating left/right will change the brightness smoothly of the selected light.
+    Adjusted for generic Tuya Smart Knob, with functionality added for remote mode.
+    Device is switched to remote mode, and back, by rapidly tapping 3 times.
+
+    Once in remote mode the following functions are available
+    - Short Press
+    - Double Press
+    - Long Press
+    - Rotate Right
+    - Rotate Left
+
+    Based on
+    - Original blueprint by seamus65 (https://gist.github.com/seamus65/939a147634942dd885c8704334627f93).
+
+    - Improved by GonzaloAlbito (https://gist.github.com/gonzaloalbito/3dc06702e941e08298ea9bfade731731).
+
+    2026-01-30 - Initial Version 
+    2026-02-04 - Changed Mode from Restart to Parallel to address issue with using sequences using delays'
+  domain: automation
+  input:
+    remote:
+      name: Remote
+      description: Tuya Knob to use
+      selector:
+        device:
+          integration: zha
+          manufacturer: _TZ3000_gwkzibhs
+          model: TS004F
+          multiple: false
+
+    light:
+      name: Light(s)
+      description: The light(s) to control
+      selector:
+        target:
+          entity:
+            domain: light
+
+    step_percent:
+      name: Light step
+      description: Light percent change for each knob step
+      selector:
+        number:
+          mode: slider
+          min: 0
+          max: 100
+          unit_of_measurement: "%"
+      default: 20
+
+    short_press:
+      name: Remote Mode - Short Press
+      description: Action to run on single press
+      default: []
+      selector:
+        action: {}
+
+    double_press:
+      name: Remote Mode - Double Press
+      description: Action to run on double press
+      default: []
+      selector:
+        action: {}
+
+    long_press:
+      name: Remote Mode - Long Press
+      description: Action to run on long press
+      default: []
+      selector:
+        action: {}
+
+    remote_right:
+      name: Remote mode - Spin Right
+      description: Action to run on "right spin" in remote mode
+      default: []
+      selector:
+        action: {}
+
+    remote_left:
+      name: Remote mode - Spin Left
+      description: Action to run on "left spin" in remote mode
+      default: []
+      selector:
+        action: {}
+
+mode: parallel
+max_exceeded: silent
+trigger:
+- platform: event
+  event_type: zha_event
+  event_data:
+    device_id: !input remote
+
+action:
+- variables:
+    command: '{{ trigger.event.data.command }}'
+    mode: '{% if command == ''step'' %} {{ trigger.event.data.args[0] }} {% endif %}'
+    steps: '{% if command == ''step'' %} {{ (trigger.event.data.args[1] / 12.5 ) | int }} {% endif %}'
+    step_percent: !input step_percent
+
+- choose:
+  - conditions:
+    - '{{ command == ''toggle'' }}'
+    sequence:
+    - service_template: light.toggle
+      target: !input light
+
+  - conditions:
+    - '{{ command == ''step'' }}'
+    - '{{ mode == ''StepMode.Up'' }}'
+    sequence:
+    - service_template: light.turn_on
+      target: !input light
+      data_template:
+        brightness_step_pct: '{{ step_percent * steps }}'
+        transition: 0.5
+
+  - conditions:
+    - '{{ command == ''step'' }}'
+    - '{{ mode == ''StepMode.Down'' }}'
+    sequence:
+    - service_template: light.turn_on
+      target: !input light
+      data_template:
+        brightness_step_pct: '-{{ step_percent * steps }}'
+        transition: 0.5
+
+  - conditions:
+    - '{{ command == ''remote_button_short_press'' }}'
+    sequence: !input short_press
+
+  - conditions:
+    - '{{ command == ''remote_button_double_press'' }}'
+    sequence: !input double_press
+
+  - conditions:
+    - '{{ command == ''remote_button_long_press'' }}'
+    sequence: !input long_press
+
+  - conditions:
+    - '{{ command == ''right'' }}'
+    sequence: !input remote_right
+
+  - conditions:
+    - '{{ command == ''left'' }}'
+    sequence: !input remote_left
